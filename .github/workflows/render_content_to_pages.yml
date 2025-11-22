@@ -6,7 +6,7 @@ on:
   
 jobs:
   render-md-to-html-and-upload-artifact:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -23,7 +23,7 @@ jobs:
       working-directory: repo
       run: ruby script.rb
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: site
         path: repo/build
@@ -31,14 +31,14 @@ jobs:
   deploy-artifact-to-pages:
     concurrency: ci-${{ github.ref }}
     needs: [render-md-to-html-and-upload-artifact]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           ref: main
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: site
           path: site
